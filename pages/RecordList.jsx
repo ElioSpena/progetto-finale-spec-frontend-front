@@ -1,3 +1,3 @@
 export default function RecordList() {
-  return;
+  return <h1>records</h1>;
 }
