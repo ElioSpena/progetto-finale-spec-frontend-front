@@ -6,22 +6,21 @@ import { category } from "../utilities/category";
 
 export default function RecordList() {
   const { records } = useGlobal();
-  const [query, setQuery] = useState("");
+  const [queryFilter, setQueryFilter] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("Tutti i generi");
 
   //Debounce dell'input per ritardare aggiornamento query
   function debounce(callback, delay) {
     let timer;
     return (value) => {
       clearTimeout(timer);
-      timer = setTimeout(() => {
-        callback(value);
-      }, delay);
+      timer = setTimeout(() => callback(value), delay);
     };
   }
 
   const delayQuery = useCallback(
     debounce((value) => {
-      setQuery(value);
+      setQueryFilter(value);
     }, 1000),
     [],
   );
@@ -30,12 +29,20 @@ export default function RecordList() {
 
   const filteredRecords = useMemo(() => {
     //Filtro ricerca per titolo
-    let queryFiltered = [...records].filter((r) =>
-      r.title.toLowerCase().includes(query.toLowerCase()),
+    const queryFiltered = [...records].filter((r) =>
+      r.title.toLowerCase().includes(queryFilter.toLowerCase()),
     );
 
-    return queryFiltered;
-  }, [records, query]);
+    //Filtro ricerca per categoria
+    const categoryFiltered =
+      categoryFilter === "Tutti i generi"
+        ? queryFiltered
+        : queryFiltered.filter(
+            (r) => r.category === categoryFilter.toLowerCase(),
+          );
+
+    return categoryFiltered;
+  }, [records, queryFilter, categoryFilter]);
 
   return (
     <section>
@@ -51,7 +58,7 @@ export default function RecordList() {
 
         {/*Filtro per categoria */}
         <div>
-          <select name="" id="">
+          <select onChange={(e) => setCategoryFilter(e.target.value)}>
             {category.map((c, index) => (
               <option key={index} value={c}>
                 {c}
