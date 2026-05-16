@@ -8,6 +8,7 @@ export default function RecordList() {
   const { records } = useGlobal();
   const [queryFilter, setQueryFilter] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("Tutti i generi");
+  const [sortOrder, setSortOrder] = useState("none");
 
   //Debounce dell'input per ritardare aggiornamento query
   function debounce(callback, delay) {
@@ -28,21 +29,28 @@ export default function RecordList() {
   //Filtri records
 
   const filteredRecords = useMemo(() => {
+    let result = [...records];
     //Filtro ricerca per titolo
-    const queryFiltered = [...records].filter((r) =>
+    result = result.filter((r) =>
       r.title.toLowerCase().includes(queryFilter.toLowerCase()),
     );
 
     //Filtro ricerca per categoria
-    const categoryFiltered =
+    result =
       categoryFilter === "Tutti i generi"
-        ? queryFiltered
-        : queryFiltered.filter(
-            (r) => r.category === categoryFilter.toLowerCase(),
-          );
+        ? result
+        : result.filter((r) => r.category === categoryFilter.toLowerCase());
 
-    return categoryFiltered;
-  }, [records, queryFilter, categoryFilter]);
+    //Ordinamento alfabetico
+    if (sortOrder === "az") {
+      result.sort((a, b) => a.title.localeCompare(b.title));
+    }
+
+    if (sortOrder === "za") {
+      result.sort((a, b) => b.title.localeCompare(a.title));
+    }
+    return result;
+  }, [records, queryFilter, categoryFilter, sortOrder]);
 
   return (
     <section>
@@ -66,6 +74,15 @@ export default function RecordList() {
             ))}
           </select>
         </div>
+      </div>
+
+      {/*Ordinamento alfabetico */}
+      <div>
+        <select onChange={(e) => setSortOrder(e.target.value)}>
+          <option value="none">Nessun ordine</option>
+          <option value="az">A-Z</option>
+          <option value="za">Z-A</option>
+        </select>
       </div>
 
       {/*Lista di records filtrata */}
