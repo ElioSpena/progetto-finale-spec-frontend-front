@@ -1,15 +1,20 @@
 import { useCallback, useState, useMemo } from "react";
 import { useGlobal } from "../context/GlobalContext";
 import { category } from "../data/category";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Modal from "../components/Modal";
 
 //Pagina lista di records
 
 export default function RecordList() {
-  const { records } = useGlobal();
+  const { records, getRecordsToCompare } = useGlobal();
   const [queryFilter, setQueryFilter] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("Tutti i generi");
   const [sortOrder, setSortOrder] = useState("none");
+  const [compareList, setCompareList] = useState([]);
+  const navigate = useNavigate();
+
+  const preview = records.filter((r) => compareList.includes(r.id));
 
   //Debounce dell'input per ritardare aggiornamento query
   function debounce(callback, delay) {
@@ -52,6 +57,13 @@ export default function RecordList() {
     }
     return result;
   }, [records, queryFilter, categoryFilter, sortOrder]);
+
+  //Handle confronto record
+  function handleCompare(ids) {
+    getRecordsToCompare(ids);
+    return navigate("/compare");
+  }
+  console.log(compareList);
 
   return (
     <section>
@@ -96,15 +108,37 @@ export default function RecordList() {
       <ul>
         {filteredRecords.map((r) => {
           return (
-            <li key={r.id}>
+            <div key={r.id}>
               <Link to={`/details/${r.id}`}>
-                <h1>{r.title}</h1>
-                <strong>{r.category}</strong>
+                <li>
+                  <h1>{r.title}</h1>
+                  <strong>{r.category}</strong>
+                </li>
               </Link>
-            </li>
+              <button
+                onClick={(e) =>
+                  setCompareList((prev) =>
+                    prev.includes(r.id) ? prev : [...prev, r.id],
+                  )
+                }
+              >
+                Aggiungi al confronto
+              </button>
+            </div>
           );
         })}
       </ul>
+
+      {/*Modale confronto records*/}
+
+      <Modal
+        title={"Prodotti da confrontare"}
+        content={preview}
+        show={compareList.length > 0}
+        onClose={() => setCompareList([])}
+        onConfirm={() => handleCompare(compareList)}
+        confirmText={"Confronta"}
+      />
     </section>
   );
 }

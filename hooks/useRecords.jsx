@@ -9,6 +9,9 @@ const url = import.meta.env.VITE_API_URL;
 export default function useRecords() {
   const [records, setRecords] = useState([]);
   const [detailRecord, setDetailRecord] = useState(null);
+  const [recordsToCompare, setRecordsToCompare] = useState([]);
+
+  console.log(recordsToCompare);
 
   //Fetch lista dei records VideoGame
 
@@ -43,9 +46,30 @@ export default function useRecords() {
     }
   }
 
+  //Fetch array di records per id
+
+  async function getRecordsToCompare(idsArray) {
+    try {
+      const results = await Promise.all(
+        idsArray.map(async (id) => {
+          const resp = await fetch(`${url}/videogames/${id}`);
+          if (!resp.ok)
+            throw new Error("Errore durante il recupero del videogioco!");
+          const data = await resp.json();
+          return data.videogame ?? data;
+        }),
+      );
+
+      setRecordsToCompare(results);
+    } catch (err) {
+      console.log(err.message);
+    }
+  }
   return {
     records,
     detailRecord,
+    recordsToCompare,
     getRecordDetails,
+    getRecordsToCompare,
   };
 }
