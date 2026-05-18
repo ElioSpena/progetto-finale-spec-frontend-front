@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 //Import dell'url dal file .env
 const url = import.meta.env.VITE_API_URL;
@@ -7,6 +8,7 @@ const url = import.meta.env.VITE_API_URL;
 
 export default function useRecords() {
   const [records, setRecords] = useState([]);
+  const [detailRecord, setDetailRecord] = useState(null);
 
   //Fetch lista dei records VideoGame
 
@@ -25,7 +27,25 @@ export default function useRecords() {
     })();
   }, []);
 
+  //Fetch dettaglio record
+
+  async function getRecordDetails(id) {
+    try {
+      const resp = await fetch(`${url}/videogames/${id}`);
+      if (!resp.ok) {
+        throw new Error("Errore durante il recupero del videogioco!");
+      }
+      const data = await resp.json();
+
+      setDetailRecord(data.videogame);
+    } catch (err) {
+      console.log(err.message);
+    }
+  }
+
   return {
     records,
+    detailRecord,
+    getRecordDetails,
   };
 }

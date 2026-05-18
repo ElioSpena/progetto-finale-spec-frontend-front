@@ -1,6 +1,7 @@
 import { useCallback, useState, useMemo } from "react";
 import { useGlobal } from "../context/GlobalContext";
-import { category } from "../utilities/category";
+import { category } from "../data/category";
+import { Link } from "react-router-dom";
 
 //Pagina lista di records
 
@@ -66,7 +67,10 @@ export default function RecordList() {
 
         {/*Filtro per categoria */}
         <div>
-          <select onChange={(e) => setCategoryFilter(e.target.value)}>
+          <select
+            value={categoryFilter}
+            onChange={(e) => setCategoryFilter(e.target.value)}
+          >
             {category.map((c, index) => (
               <option key={index} value={c}>
                 {c}
@@ -78,7 +82,10 @@ export default function RecordList() {
 
       {/*Ordinamento alfabetico */}
       <div>
-        <select onChange={(e) => setSortOrder(e.target.value)}>
+        <select
+          value={sortOrder}
+          onChange={(e) => setSortOrder(e.target.value)}
+        >
           <option value="none">Nessun ordine</option>
           <option value="az">A-Z</option>
           <option value="za">Z-A</option>
@@ -90,8 +97,10 @@ export default function RecordList() {
         {filteredRecords.map((r) => {
           return (
             <li key={r.id}>
-              <h1>{r.title}</h1>
-              <strong>{r.category}</strong>
+              <Link to={`/details/${r.id}`}>
+                <h1>{r.title}</h1>
+                <strong>{r.category}</strong>
+              </Link>
             </li>
           );
         })}
