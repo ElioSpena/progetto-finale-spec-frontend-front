@@ -7,7 +7,7 @@ import Modal from "../components/Modal";
 //Pagina lista di records
 
 export default function RecordList() {
-  const { records, getRecordsToCompare } = useGlobal();
+  const { records, getRecordsByIds, favorites, setFavorites } = useGlobal();
   const [queryFilter, setQueryFilter] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("Tutti i generi");
   const [sortOrder, setSortOrder] = useState("none");
@@ -60,10 +60,9 @@ export default function RecordList() {
 
   //Handle confronto record
   function handleCompare(ids) {
-    getRecordsToCompare(ids);
+    getRecordsByIds(ids);
     return navigate("/compare");
   }
-  console.log(compareList);
 
   return (
     <section>
@@ -115,6 +114,8 @@ export default function RecordList() {
                   <strong>{r.category}</strong>
                 </li>
               </Link>
+
+              {/*Aggiunta a confronto records */}
               <button
                 onClick={(e) =>
                   setCompareList((prev) =>
@@ -123,6 +124,20 @@ export default function RecordList() {
                 }
               >
                 Aggiungi al confronto
+              </button>
+
+              {/*Aggiunta ai preferiti */}
+
+              <button
+                onClick={() =>
+                  setFavorites((prev) =>
+                    prev.includes(r.id)
+                      ? prev.filter((id) => id !== r.id)
+                      : [...prev, r.id],
+                  )
+                }
+              >
+                {favorites.includes(r.id) ? "♥" : "♡"}
               </button>
             </div>
           );

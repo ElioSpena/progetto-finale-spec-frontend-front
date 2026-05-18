@@ -4,6 +4,7 @@ import RecordList from "../pages/RecordList";
 import MainLayout from "../layouts/MainLayout";
 import DetailsPage from "../pages/DetailsPage";
 import ComparePage from "../pages/ComparePage";
+import Favorites from "../pages/Favorites";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
             <Route path="/" element={<RecordList />} />
             <Route path="/details/:id" element={<DetailsPage />} />
             <Route path="/compare" element={<ComparePage />} />
+            <Route path="/favorites" element={<Favorites />} />
           </Route>
         </Routes>
       </BrowserRouter>

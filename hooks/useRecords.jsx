@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useGlobal } from "../context/GlobalContext";
 
 //Import dell'url dal file .env
 const url = import.meta.env.VITE_API_URL;
@@ -9,9 +10,8 @@ const url = import.meta.env.VITE_API_URL;
 export default function useRecords() {
   const [records, setRecords] = useState([]);
   const [detailRecord, setDetailRecord] = useState(null);
-  const [recordsToCompare, setRecordsToCompare] = useState([]);
-
-  console.log(recordsToCompare);
+  const [recordsByIds, setrecordsByIds] = useState([]);
+  const [favorites, setFavorites] = useState([]);
 
   //Fetch lista dei records VideoGame
 
@@ -48,7 +48,7 @@ export default function useRecords() {
 
   //Fetch array di records per id
 
-  async function getRecordsToCompare(idsArray) {
+  async function getRecordsByIds(idsArray) {
     try {
       const results = await Promise.all(
         idsArray.map(async (id) => {
@@ -60,7 +60,7 @@ export default function useRecords() {
         }),
       );
 
-      setRecordsToCompare(results);
+      setrecordsByIds(results);
     } catch (err) {
       console.log(err.message);
     }
@@ -68,8 +68,11 @@ export default function useRecords() {
   return {
     records,
     detailRecord,
-    recordsToCompare,
+    recordsByIds,
+    favorites,
+
+    setFavorites,
     getRecordDetails,
-    getRecordsToCompare,
+    getRecordsByIds,
   };
 }
