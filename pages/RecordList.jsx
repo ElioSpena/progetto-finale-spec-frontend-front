@@ -7,14 +7,15 @@ import Modal from "../components/Modal";
 //Pagina lista di records
 
 export default function RecordList() {
-  const { records, getRecordsByIds, favorites, setFavorites } = useGlobal();
+  const { records, compareIds, setCompareIds, favoritesIds, setFavoritesIds } =
+    useGlobal();
   const [queryFilter, setQueryFilter] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("Tutti i generi");
   const [sortOrder, setSortOrder] = useState("none");
-  const [compareList, setCompareList] = useState([]);
+
   const navigate = useNavigate();
 
-  const preview = records.filter((r) => compareList.includes(r.id));
+  const preview = records.filter((r) => compareIds.includes(r.id));
 
   //Debounce dell'input per ritardare aggiornamento query
   function debounce(callback, delay) {
@@ -57,12 +58,6 @@ export default function RecordList() {
     }
     return result;
   }, [records, queryFilter, categoryFilter, sortOrder]);
-
-  //Handle confronto record
-  function handleCompare(ids) {
-    getRecordsByIds(ids);
-    return navigate("/compare");
-  }
 
   return (
     <section>
@@ -118,7 +113,7 @@ export default function RecordList() {
               {/*Aggiunta a confronto records */}
               <button
                 onClick={(e) =>
-                  setCompareList((prev) =>
+                  setCompareIds((prev) =>
                     prev.includes(r.id) ? prev : [...prev, r.id],
                   )
                 }
@@ -130,14 +125,14 @@ export default function RecordList() {
 
               <button
                 onClick={() =>
-                  setFavorites((prev) =>
+                  setFavoritesIds((prev) =>
                     prev.includes(r.id)
                       ? prev.filter((id) => id !== r.id)
                       : [...prev, r.id],
                   )
                 }
               >
-                {favorites.includes(r.id) ? "♥" : "♡"}
+                {favoritesIds.includes(r.id) ? "♥" : "♡"}
               </button>
             </div>
           );
@@ -149,9 +144,9 @@ export default function RecordList() {
       <Modal
         title={"Prodotti da confrontare"}
         content={preview}
-        show={compareList.length > 0}
-        onClose={() => setCompareList([])}
-        onConfirm={() => handleCompare(compareList)}
+        show={compareIds.length > 0}
+        onClose={() => setCompareIds([])}
+        onConfirm={() => navigate("/compare")}
         confirmText={"Confronta"}
       />
     </section>

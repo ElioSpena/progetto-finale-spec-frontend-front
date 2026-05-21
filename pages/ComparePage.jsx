@@ -1,12 +1,15 @@
 import { useGlobal } from "../context/GlobalContext";
 export default function ComparePage() {
-  const { recordsToCompare } = useGlobal();
-  if (!recordsToCompare.length) {
+  const { records, compareIds } = useGlobal();
+
+  const listToCompare = records.filter((r) => compareIds.includes(r.id));
+
+  if (!listToCompare) {
     return <p>Caricamento...</p>;
   }
   return (
     <section>
-      {recordsToCompare.map((r) => (
+      {listToCompare.map((r) => (
         <div key={r.id}>
           <h1>{r.title}</h1>
           <p>{r.category}</p>

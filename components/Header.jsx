@@ -1,3 +1,12 @@
+import { Link } from "react-router-dom";
+
 export default function Header() {
-  return <header>Header</header>;
+  return (
+    <header>
+      <nav>
+        <Link to={"/"}>Home</Link>
+        <Link to={"/favorites"}>Preferiti</Link>
+      </nav>
+    </header>
+  );
 }
