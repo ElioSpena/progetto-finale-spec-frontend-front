@@ -10,8 +10,6 @@ const url = import.meta.env.VITE_API_URL;
 export default function useRecords() {
   const [records, setRecords] = useState([]);
   const [detailRecord, setDetailRecord] = useState(null);
-  const [compareIds, setCompareIds] = useState([]);
-  const [favoritesIds, setFavoritesIds] = useState([]);
 
   //Fetch lista dei records VideoGame
 
@@ -49,11 +47,7 @@ export default function useRecords() {
   return {
     records,
     detailRecord,
-    compareIds,
-    favoritesIds,
 
-    setFavoritesIds,
     getRecordDetails,
-    setCompareIds,
   };
 }

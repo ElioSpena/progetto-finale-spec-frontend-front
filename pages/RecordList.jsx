@@ -124,13 +124,15 @@ export default function RecordList() {
               {/*Aggiunta ai preferiti */}
 
               <button
-                onClick={() =>
-                  setFavoritesIds((prev) =>
-                    prev.includes(r.id)
-                      ? prev.filter((id) => id !== r.id)
-                      : [...prev, r.id],
-                  )
-                }
+                onClick={() => {
+                  const isFavorite = favoritesIds.includes(r.id);
+
+                  const newFavorites = isFavorite
+                    ? favoritesIds.filter((id) => id !== r.id)
+                    : [...favoritesIds, r.id];
+
+                  setFavoritesIds(newFavorites);
+                }}
               >
                 {favoritesIds.includes(r.id) ? "♥" : "♡"}
               </button>

@@ -9,9 +9,13 @@ export default function Favorites() {
 
   return (
     <section>
-      {favoritesList.map((f) => (
-        <h1>{f.title}</h1>
-      ))}
+      <ul>
+        {favoritesList.map((f) => (
+          <li key={f.id}>
+            <h1>{f.title}</h1>
+          </li>
+        ))}
+      </ul>
     </section>
   );
 }
