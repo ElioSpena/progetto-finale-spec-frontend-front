@@ -15,54 +15,68 @@ export default function DetailsPage() {
   if (!detailRecord) {
     return <p>Caricamento...</p>;
   }
-  console.log(detailRecord);
 
   return (
-    <section>
+    <section className="detail-container">
       <article>
-        {/*Header*/}
-        <header>
+        {/*Card Header*/}
+        <div className="details-header">
           <h1>{detailRecord.title}</h1>
-          <span>{detailRecord.category}</span>
-          <span>{detailRecord.platform}</span>
-        </header>
 
-        {/*Descrizione*/}
-        <p>
-          <strong>Descrizione: </strong>
-          {detailRecord.description}
-        </p>
-        <p>
-          <strong>Casa di sviluppo: </strong>
-          {detailRecord.developer}
-        </p>
-        <p>
-          <strong>Genere: </strong>
-          {detailRecord.genre}
-        </p>
+          <div className="details-tags">
+            <span>{detailRecord.platform}</span>
+            <span>{detailRecord.genre}</span>
+          </div>
+        </div>
 
-        <p>
-          <strong>Voto: </strong>
-          {detailRecord.rating}/10
-        </p>
+        {/*Contenuto*/}
+        <div className="details-content">
+          <div className="details-image">
+            <img src={detailRecord.image} alt={detailRecord.title} />
+          </div>
+          {/*Descrizione*/}
+          <div className="details-section">
+            <div>
+              <strong>Descrizione</strong>
+              <p>{detailRecord.description}</p>
+            </div>
 
-        {/*Informazioni sull'acquisto */}
+            <div>
+              <strong>Casa di sviluppo</strong>
+              <p>{detailRecord.developer}</p>
+            </div>
 
-        <p>
-          <strong> Disponibilità: </strong>
-          {detailRecord.isAvailable
-            ? `Disponibili: ${detailRecord.availableQuantity}`
-            : "Non disponibile"}
-        </p>
+            {/*Informazioni sull'acquisto */}
 
-        <p>
-          <strong>Prezzo: </strong>
-          {detailRecord.price}
-        </p>
+            <p
+              className={
+                detailRecord.isAvailable ? "available" : "not-available"
+              }
+            >
+              {detailRecord.isAvailable
+                ? "Disponibile per l'acquisto"
+                : "Non disponibile per l'acquisto"}
+            </p>
 
-        <strong>
-          {detailRecord.isUsed ? "Disponibile Usato" : "Usato non disponibile"}
-        </strong>
+            <p className="used-status">
+              {detailRecord.isUsed
+                ? "Usato Disponibile"
+                : "Usato non disponibile"}
+            </p>
+
+            <div className="details-grid">
+              <div className="details-box">
+                <strong>Voto</strong>
+                <p>{detailRecord.rating}/10</p>
+              </div>
+
+              <div className="details-box">
+                <strong>Prezzo</strong>
+                <p>€ {detailRecord.price}</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </article>
     </section>
   );

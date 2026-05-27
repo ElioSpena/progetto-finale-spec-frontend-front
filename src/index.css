@@ -1,0 +1,521 @@
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100%;
+  font-family:
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    Arial,
+    sans-serif;
+
+  font-size: 1rem;
+  line-height: 1.4;
+  background: var(--bg);
+  color: var(--text);
+}
+
+img {
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+main {
+  padding-top: calc(var(--header-height) + 20px);
+  margin-bottom: 50px;
+}
+
+/* VARIABILI */
+
+:root {
+  --header-height: 60px;
+  --bg: rgb(11, 15, 25);
+  --surface: rgb(18, 26, 42);
+  --smooth-surface: rgb(72, 99, 153);
+  --transparent-surface: rgba(30, 73, 160, 0.657);
+  --border: rgb(62, 81, 110);
+  --text: rgb(215, 228, 253);
+}
+
+/* ----------LAYOUT-----------*/
+
+/* UTILITY */
+
+.container {
+  width: 80%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* HEADER */
+
+header,
+.header-scrolled {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  height: var(--header-height);
+  z-index: 999;
+}
+
+header {
+  justify-content: center;
+  background: var(--bg);
+}
+
+.header-scrolled {
+  justify-content: space-around;
+}
+
+.logo {
+  font-size: 42px;
+  background-color: var(--surface);
+  padding: 6px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+}
+
+.favorites-link {
+  font-size: 22px;
+}
+
+.logo,
+.favorites-link {
+  transition:
+    transform 0.2s ease,
+    color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+}
+
+.logo:hover {
+  transform: scale(1.1);
+  color: rgb(95, 195, 59);
+  background-color: var(--smooth-surface);
+}
+
+.favorites-link:hover {
+  transform: scale(1.1);
+  color: rgb(177, 60, 60);
+}
+/* FILTRI */
+
+.filters {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  padding: 12px 20px;
+  margin-bottom: 24px;
+  border-radius: 12px;
+}
+
+.filters-container {
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  width: 500px;
+  margin: 0 auto;
+}
+
+/* INPUT E SELECT */
+
+.filters input,
+.filters select {
+  padding: 10px 12px;
+  background: var(--smooth-surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  outline: none;
+  transition: 0.2s ease;
+}
+
+.filters input::placeholder {
+  color: var(--text);
+  color: var(--text);
+}
+
+option {
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+/* FOCUS */
+
+.filters input:focus,
+.filters select:focus {
+  border-color: rgb(59, 130, 246);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+/* LISTA RECORDS*/
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0;
+}
+
+.list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  transition: 0.15s ease;
+}
+
+.list-item:hover {
+  background: var(--smooth-surface);
+}
+
+/* LINK  */
+.list-main {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.list-main h3 {
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+/* CATEGORIA */
+.list-main span {
+  font-size: 0.6rem;
+  font-weight: 500;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: var(--transparent-surface);
+  color: var(--text);
+  opacity: 0.9;
+}
+
+/* BUTTONS LISTA */
+.list-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.list-actions button {
+  font-size: 25px;
+  border: none;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+
+  transition:
+    transform 0.15s ease,
+    color 0.15s ease;
+}
+
+.list-actions button:hover {
+  transform: scale(1.2);
+}
+
+.tooltip {
+  position: absolute;
+  right: 100%;
+  bottom: 12px;
+  background: var(--bg);
+  color: var(--text);
+  padding: 4px 8px;
+  font-size: 12px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+/* PREVIEW COUNTER RECORDS DA COMPARARE */
+.compare-float {
+  position: fixed;
+  top: 10%;
+  right: 10%;
+  z-index: 2000;
+  width: 200px;
+  padding: 12px;
+  background: rgba(18, 26, 42, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.compare-float button {
+  padding: 6px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.compare-float button:hover {
+  background: var(--smooth-surface);
+}
+
+.btn-compare {
+  display: flex;
+  gap: 10px;
+}
+
+/*MODAL OVERLAY*/
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+}
+
+.modal {
+  width: min(1200px, 95%);
+  background: var(--surface);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  background: var(--smooth-surface);
+}
+
+.modal-header h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.modal-close {
+  width: 34px;
+  height: 34px;
+
+  border-radius: 50%;
+  border: 1px solid var(--border);
+
+  background: var(--bg);
+  color: var(--text);
+
+  cursor: pointer;
+}
+
+.modal-close:hover {
+  color: rgb(177, 60, 60);
+}
+
+.compare-table thead th {
+  border-bottom: 1px solid var(--border);
+  padding: 12px;
+  text-align: center;
+  font-weight: 700;
+  z-index: 2;
+}
+
+.compare-table tbody th {
+  text-align: center;
+  padding: 12px;
+  background: var(--bg);
+  font-weight: 600;
+}
+
+.compare-table td {
+  text-align: center;
+}
+
+.compare-table {
+  min-width: 100%;
+}
+
+/* -----------DETAILS PAGE-------------- */
+
+/* CARD */
+.detail-container {
+  width: 70%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.details-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.details-header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+/* TAGS */
+
+.details-tags {
+  display: flex;
+  gap: 10px;
+}
+
+.details-tags span {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--transparent-surface);
+  border: 1px solid var(--border);
+  font-size: 0.6rem;
+}
+
+/* CONTENT */
+
+.details-content {
+  padding: 24px;
+  display: flex;
+  gap: 22px;
+}
+
+/* SECTION */
+
+.details-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  background-color: var(--surface);
+  border-radius: 26px;
+}
+
+/* GRID */
+
+.details-grid {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* BOX */
+
+.details-box {
+  min-width: 180px;
+  padding: 18px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.details-box strong {
+  display: block;
+  margin-bottom: 8px;
+  opacity: 0.7;
+}
+
+.details-box p {
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+/* STATUS */
+
+.available {
+  color: #4ade80;
+}
+
+.not-available {
+  color: #f87171;
+}
+
+.used-status {
+  color: #facc15;
+}
+
+/* PAGINA PREFERITI*/
+.favorites-page {
+  margin-top: calc(var(--header-height) + 12px);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* HEADER */
+.favorites-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.favorites-header h1 {
+  font-size: 2rem;
+}
+
+.favorites-header span {
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+/* IMMAGINE */
+.favorite-image {
+  width: 90px;
+  height: 90px;
+  overflow: hidden;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+.favorite-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* CONTENUTO */
+.favorite-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* BADGES */
+.favorite-badges {
+  display: flex;
+  gap: 8px;
+}
+
+.favorite-badges span {
+  font-size: 0.7rem;
+  padding: 4px 8px;
+  background: var(--transparent-surface);
+  border: 1px solid var(--border);
+}
+
+.advise {
+  margin-top: calc(var(--header-height) + 50px);
+  text-align: center;
+}
+
+.btn-delete:hover {
+  color: #b20000;
+}
