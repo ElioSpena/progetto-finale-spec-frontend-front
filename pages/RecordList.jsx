@@ -143,53 +143,57 @@ export default function RecordList() {
 
       {/*Lista di records filtrata */}
       <ul className="list">
-        {filteredRecords.map((r) => {
-          return (
-            <li className="list-item" key={r.id}>
-              <Link to={`/details/${r.id}`} className="list-main">
-                <h3>{r.title}</h3>
-                <span>{r.category}</span>
-              </Link>
+        {filteredRecords.length === 0 ? (
+          <p className="advise">Nessun risultato trovato!</p>
+        ) : (
+          filteredRecords.map((r) => {
+            return (
+              <li className="list-item" key={r.id}>
+                <Link to={`/details/${r.id}`} className="list-main">
+                  <h3>{r.title}</h3>
+                  <span>{r.category}</span>
+                </Link>
 
-              <div className="list-actions">
-                {/* BOTTONE CONFRONTO */}
-                <button
-                  onMouseEnter={() => setHover(r.id)}
-                  onMouseLeave={() => setHover(null)}
-                  onClick={() =>
-                    setCompareIds((prev) =>
-                      prev.includes(r.id) ? prev : [...prev, r.id],
-                    )
-                  }
-                >
-                  <MdCompareArrows />
-                  {hover === r.id && (
-                    <span className="tooltip">Aggiungi al confronto</span>
-                  )}
-                </button>
+                <div className="list-actions">
+                  {/* BOTTONE CONFRONTO */}
+                  <button
+                    onMouseEnter={() => setHover(r.id)}
+                    onMouseLeave={() => setHover(null)}
+                    onClick={() =>
+                      setCompareIds((prev) =>
+                        prev.includes(r.id) ? prev : [...prev, r.id],
+                      )
+                    }
+                  >
+                    <MdCompareArrows />
+                    {hover === r.id && (
+                      <span className="tooltip">Aggiungi al confronto</span>
+                    )}
+                  </button>
 
-                {/* BOTTONE PREFERITI */}
-                <button
-                  onClick={() => {
-                    const isFavorite = favoritesIds.includes(r.id);
+                  {/* BOTTONE PREFERITI */}
+                  <button
+                    onClick={() => {
+                      const isFavorite = favoritesIds.includes(r.id);
 
-                    const newFavorites = isFavorite
-                      ? favoritesIds.filter((id) => id !== r.id)
-                      : [...favoritesIds, r.id];
+                      const newFavorites = isFavorite
+                        ? favoritesIds.filter((id) => id !== r.id)
+                        : [...favoritesIds, r.id];
 
-                    setFavoritesIds(newFavorites);
-                  }}
-                >
-                  {favoritesIds.includes(r.id) ? (
-                    <FcLike />
-                  ) : (
-                    <FcLikePlaceholder />
-                  )}
-                </button>
-              </div>
-            </li>
-          );
-        })}
+                      setFavoritesIds(newFavorites);
+                    }}
+                  >
+                    {favoritesIds.includes(r.id) ? (
+                      <FcLike />
+                    ) : (
+                      <FcLikePlaceholder />
+                    )}
+                  </button>
+                </div>
+              </li>
+            );
+          })
+        )}
       </ul>
 
       {/*Modale confronto records*/}
